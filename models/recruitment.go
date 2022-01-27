@@ -17,7 +17,8 @@ type Recruitment struct {
 	SkillKeyword   []string      `bson:"skill_keyword,omitempty"`
 	Descript       string        `bson:"descript,omitempty"`
 	Salary         string        `bson:"salary,omitempty"`
-	Url            string        `bson:"url,omitempty"`
+	UrlJob         string        `bson:"url_job,omitempty"`
+	UrlCompany     string        `bson:"url_company,omitempty"`
 	Site           string        `bson:"site,omitempty"`
 	CreatedAt      string        `bson:"created_at,omitempty"`
 	JobDeadline    string        `bson:"job_deadline,omitempty"`

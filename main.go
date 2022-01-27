@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"vieclamit/database"
+	"vieclamit/feeds"
 	"vieclamit/repository"
 	repoimpl "vieclamit/repository/repo_impl"
 )
@@ -22,23 +23,17 @@ func main() {
 	}
 
 	var wg sync.WaitGroup
-	wg.Add(2)
+	wg.Add(1)
 
 	go func() {
 		defer wg.Done()
-		// feeds.TopCV(handle.Repo)
-	}()
-
-	go func() {
-		defer wg.Done()
-		// feeds.CareerBuilder(handle.Repo)
+		feeds.GetDataOnePage(handle.Repo)
 	}()
 
 	wg.Wait()
 
 	// Schedule crawl
-	go schedule(24*time.Hour, handle, 1)
-	schedule(24*time.Hour, handle, 2)
+	schedule(6*time.Hour, handle, 1)
 }
 
 func schedule(timeSchedule time.Duration, handle handle, inndex int) {
@@ -48,9 +43,7 @@ func schedule(timeSchedule time.Duration, handle handle, inndex int) {
 			switch inndex {
 			case 1:
 				<-ticker.C
-
-			case 2:
-				<-ticker.C
+				feeds.GetDataOnePage(handle.Repo)
 			}
 		}
 	}()
