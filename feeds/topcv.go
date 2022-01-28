@@ -175,11 +175,11 @@ func screenshotDescriptTopCV(url string) {
 	var buf []byte
 
 	if strings.Contains(url, "brand") {
-		if err := chromedp.Run(ctx, common.ElementScreenShot(url, "div.section-body", &buf)); err != nil {
+		if err := chromedp.Run(ctx, common.ElementScreenshot(url, "div.section-body", &buf)); err != nil {
 			fmt.Println(err)
 		}
 	} else {
-		if err := chromedp.Run(ctx, common.ElementScreenShot(url, "div.box-info-job div.col-md-8", &buf)); err != nil {
+		if err := chromedp.Run(ctx, common.ElementScreenshot(url, "div.box-info-job div.col-md-8", &buf)); err != nil {
 			fmt.Println(err)
 		}
 	}
