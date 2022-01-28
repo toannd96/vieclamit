@@ -3,6 +3,7 @@ package feeds
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"math"
 	"runtime"
 	"strconv"
@@ -14,6 +15,7 @@ import (
 	"vieclamit/repository"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/chromedp/chromedp"
 	"golang.org/x/sync/errgroup"
 	"golang.org/x/sync/semaphore"
 )
@@ -163,3 +165,29 @@ func TopCV(repo repository.Repository) {
 
 	fmt.Println("Done")
 }
+
+func screenshotDescriptTopCV(url string) {
+	ctx, cancel := chromedp.NewContext(
+		context.Background(),
+	)
+	defer cancel()
+
+	var buf []byte
+
+	if strings.Contains(url, "brand") {
+		if err := chromedp.Run(ctx, common.ElementScreenShot(url, "div.section-body", &buf)); err != nil {
+			fmt.Println(err)
+		}
+	} else {
+		if err := chromedp.Run(ctx, common.ElementScreenShot(url, "div.box-info-job div.col-md-8", &buf)); err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	if err := ioutil.WriteFile("screenshot_descript.png", buf, 0644); err != nil {
+		fmt.Println(err)
+	}
+}
+
+// https://www.topcv.vn/brand/smartosc/tuyen-dung/it-comtor-j592057.html
+// https://www.topcv.vn/viec-lam/blockchain-developers-luong-1-000-4-000-hcm/590697.html
