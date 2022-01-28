@@ -25,7 +25,7 @@ const (
 	topcvJobsPath = "/tim-viec-lam-it-phan-mem-c10026"
 )
 
-func getTotalPageTopCV() (float64, error) {
+func getTotalPageTopCV() (int, error) {
 	var numJob int
 
 	url := fmt.Sprintf("%s%s", topcvBasePath, topcvJobsPath)
@@ -40,7 +40,7 @@ func getTotalPageTopCV() (float64, error) {
 
 	numElement := doc.Find("div.job-item").Length()
 
-	totalPage := math.Ceil(float64(numJob) / float64(numElement))
+	totalPage := int(math.Ceil(float64(numJob) / float64(numElement)))
 
 	return totalPage, nil
 }
@@ -143,7 +143,7 @@ func TopCV(repo repository.Repository) {
 	group, ctx := errgroup.WithContext(context.Background())
 
 	totalPage, _ := getTotalPageTopCV()
-	for page := 1; page <= int(totalPage); page++ {
+	for page := 1; page <= totalPage; page++ {
 		url := fmt.Sprintf("%s%s?page=%d", topcvBasePath, topcvJobsPath, page)
 		err := sem.Acquire(ctx, 1)
 		if err != nil {
