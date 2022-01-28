@@ -1,16 +1,21 @@
 package feeds
 
 import (
+	"context"
 	"fmt"
 	"math"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
+
 	"vieclamit/common"
 	"vieclamit/models"
 	"vieclamit/repository"
 
 	"github.com/PuerkitoBio/goquery"
+	"golang.org/x/sync/errgroup"
+	"golang.org/x/sync/semaphore"
 )
 
 const (
@@ -18,7 +23,7 @@ const (
 	topcvJobsPath = "/tim-viec-lam-it-phan-mem-c10026"
 )
 
-func GetTotalPageTopCV() (float64, error) {
+func getTotalPageTopCV() (float64, error) {
 	var numPage int
 
 	url := fmt.Sprintf("%s%s", topcvBasePath, topcvJobsPath)
@@ -35,16 +40,14 @@ func GetTotalPageTopCV() (float64, error) {
 
 	totalPage := math.Ceil(float64(numPage) / float64(numElement))
 
-	fmt.Println(totalPage)
-
 	return totalPage, nil
 }
 
-func GetDataOnePage(repo repository.Repository) error {
+func getDataOnePage(url string, repo repository.Repository) error {
 	var recruitment models.Recruitment
 	var urlJob string
 
-	doc, err := common.GetNewDocument("https://www.topcv.vn/tim-viec-lam-it-phan-mem-c10026")
+	doc, err := common.GetNewDocument(url)
 	if err != nil {
 		return err
 	}
@@ -65,6 +68,7 @@ func GetDataOnePage(repo repository.Repository) error {
 
 		// if not exists
 		if count == 0 {
+			fmt.Printf("Extract %s\n", urlJob)
 			recruitment.UrlJob = urlJob
 
 			body.Find("div.content").Each(func(index int, content *goquery.Selection) {
@@ -129,7 +133,33 @@ func GetDataOnePage(repo repository.Repository) error {
 		}
 	})
 
-	fmt.Println("Done")
-
 	return nil
+}
+
+func TopCV(repo repository.Repository) {
+	sem := semaphore.NewWeighted(int64(runtime.NumCPU()))
+	group, ctx := errgroup.WithContext(context.Background())
+
+	totalPage, _ := getTotalPageTopCV()
+	for page := 1; page <= int(totalPage); page++ {
+		url := fmt.Sprintf("%s%s?page=%d", topcvBasePath, topcvJobsPath, page)
+		err := sem.Acquire(ctx, 1)
+		if err != nil {
+			continue
+		}
+		group.Go(func() error {
+			defer sem.Release(1)
+
+			err := getDataOnePage(url, repo)
+			if err != nil {
+				fmt.Println(err)
+			}
+			return nil
+		})
+	}
+	if err := group.Wait(); err != nil {
+		fmt.Printf("goroutine error = %+v\n", err)
+	}
+
+	fmt.Println("Done")
 }

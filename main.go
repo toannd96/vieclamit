@@ -27,7 +27,7 @@ func main() {
 
 	go func() {
 		defer wg.Done()
-		feeds.GetDataOnePage(handle.Repo)
+		feeds.TopCV(handle.Repo)
 	}()
 
 	wg.Wait()
@@ -43,7 +43,7 @@ func schedule(timeSchedule time.Duration, handle handle, inndex int) {
 			switch inndex {
 			case 1:
 				<-ticker.C
-				feeds.GetDataOnePage(handle.Repo)
+				feeds.TopCV(handle.Repo)
 			}
 		}
 	}()
