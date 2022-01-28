@@ -26,7 +26,7 @@ const (
 )
 
 func getTotalPageTopCV() (float64, error) {
-	var numPage int
+	var numJob int
 
 	url := fmt.Sprintf("%s%s", topcvBasePath, topcvJobsPath)
 	doc, err := common.GetNewDocument(url)
@@ -35,12 +35,12 @@ func getTotalPageTopCV() (float64, error) {
 	}
 
 	doc.Find("div.job-header span b.text-highlight").Each(func(index int, content *goquery.Selection) {
-		numPage, _ = strconv.Atoi(strings.ReplaceAll(content.Text(), ",", ""))
+		numJob, _ = strconv.Atoi(strings.ReplaceAll(content.Text(), ",", ""))
 	})
 
 	numElement := doc.Find("div.job-item").Length()
 
-	totalPage := math.Ceil(float64(numPage) / float64(numElement))
+	totalPage := math.Ceil(float64(numJob) / float64(numElement))
 
 	return totalPage, nil
 }
