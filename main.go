@@ -28,16 +28,16 @@ func main() {
 
 	wg.Wait()
 
-	// Schedule crawl
+	// schedule crawl
 	go schedule(6*time.Hour, handle, 1)
 	schedule(24*time.Hour, handle, 2)
 }
 
-func schedule(timeSchedule time.Duration, handle handle.Handle, inndex int) {
+func schedule(timeSchedule time.Duration, handle handle.Handle, index int) {
 	ticker := time.NewTicker(timeSchedule)
 	func() {
 		for {
-			switch inndex {
+			switch index {
 			case 1:
 				<-ticker.C
 				feeds.TopCV(handle.Repo)

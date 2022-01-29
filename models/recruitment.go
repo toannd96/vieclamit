@@ -6,6 +6,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// Recruitment struct
 type Recruitment struct {
 	ID          bson.ObjectId `bson:"_id,omitempty"`
 	Title       string        `bson:"title,omitempty"`

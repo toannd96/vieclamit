@@ -7,10 +7,12 @@ const (
 	dbName = "vieclamit"
 )
 
+// Mongo struct
 type Mongo struct {
 	Db *mgo.Database
 }
 
+// CreateConn create connection to mongodb
 func (m *Mongo) CreateConn() {
 	sess, err := mgo.Dial(host)
 	if err != nil {

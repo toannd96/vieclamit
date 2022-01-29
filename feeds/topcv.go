@@ -23,9 +23,12 @@ import (
 const (
 	topcvBasePath = "https://www.topcv.vn"
 	topcvJobsPath = "/tim-viec-lam-it-phan-mem-c10026"
+
+	collection = "vieclamit"
 )
 
-func getTotalPageTopCV() (int, error) {
+// totalPageTopCV get total page
+func totalPageTopCV() (int, error) {
 	var numJob int
 
 	url := fmt.Sprintf("%s%s", topcvBasePath, topcvJobsPath)
@@ -45,7 +48,8 @@ func getTotalPageTopCV() (int, error) {
 	return totalPage, nil
 }
 
-func getDataOnePage(url string, repo repository.Repository) error {
+// dataOnePage extract all item in a page
+func dataOnePage(url string, repo repository.Repository) error {
 	var recruitment models.Recruitment
 	var urlJob, jobDeadlineString string
 
@@ -63,7 +67,7 @@ func getDataOnePage(url string, repo repository.Repository) error {
 		})
 
 		// check url job exists in mongodb
-		count, err := repo.FindByUrl(urlJob, "vieclamit")
+		count, err := repo.FindByUrl(urlJob, collection)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -107,12 +111,13 @@ func getDataOnePage(url string, repo repository.Repository) error {
 					if !strings.Contains(link, "brand") {
 
 						// url on company
+						// ex: https://www.topcv.vn/viec-lam/ky-su-tich-hop-he-thong-luong-len-den-1000/595334.html
 						doc.Find("p.website a[href]").Each(func(index int, urlCompany *goquery.Selection) {
 							recruitment.UrlCompany = urlCompany.Text()
 						})
 					} else {
-
 						// url on company brand
+						// ex: https://www.topcv.vn/brand/educa/tuyen-dung/product-designer-manh-ve-ux-thu-nhap-hap-dan-j587195.html
 						doc.Find("a.color-premium").Each(func(index int, urlCompany *goquery.Selection) {
 							recruitment.UrlCompany = urlCompany.Text()
 						})
@@ -130,7 +135,7 @@ func getDataOnePage(url string, repo repository.Repository) error {
 				})
 
 				// save in to mongodb
-				errSave := repo.Insert(recruitment, "vieclamit")
+				errSave := repo.Insert(recruitment, collection)
 				if errSave != nil {
 					fmt.Println(errSave)
 				}
@@ -146,11 +151,12 @@ func getDataOnePage(url string, repo repository.Repository) error {
 	return nil
 }
 
+// TopCV crawl all page it jobs
 func TopCV(repo repository.Repository) {
 	sem := semaphore.NewWeighted(int64(runtime.NumCPU()))
 	group, ctx := errgroup.WithContext(context.Background())
 
-	totalPage, _ := getTotalPageTopCV()
+	totalPage, _ := totalPageTopCV()
 	for page := 1; page <= totalPage; page++ {
 		url := fmt.Sprintf("%s%s?page=%d", topcvBasePath, topcvJobsPath, page)
 		err := sem.Acquire(ctx, 1)
@@ -160,7 +166,7 @@ func TopCV(repo repository.Repository) {
 		group.Go(func() error {
 			defer sem.Release(1)
 
-			err := getDataOnePage(url, repo)
+			err := dataOnePage(url, repo)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -168,13 +174,14 @@ func TopCV(repo repository.Repository) {
 		})
 	}
 	if err := group.Wait(); err != nil {
-		fmt.Printf("goroutine error = %+v\n", err)
+		fmt.Println(err)
 	}
 
-	fmt.Println("Done")
+	fmt.Println("Completed")
 }
 
-func screenshotDescriptTopCV(url string) {
+// screenshotJDTopCV takes a screenshot of job descript topcv
+func screenshotJDTopCV(url string) {
 	ctx, cancel := chromedp.NewContext(
 		context.Background(),
 	)
@@ -183,10 +190,12 @@ func screenshotDescriptTopCV(url string) {
 	var buf []byte
 
 	if strings.Contains(url, "brand") {
+		// ex: https://www.topcv.vn/brand/smartosc/tuyen-dung/it-comtor-j592057.html
 		if err := chromedp.Run(ctx, common.ElementScreenshot(url, "div.section-body", &buf)); err != nil {
 			fmt.Println(err)
 		}
 	} else {
+		// ex: https://www.topcv.vn/viec-lam/blockchain-developers-luong-1-000-4-000-hcm/590697.html
 		if err := chromedp.Run(ctx, common.ElementScreenshot(url, "div.box-info-job div.col-md-8", &buf)); err != nil {
 			fmt.Println(err)
 		}
@@ -196,6 +205,3 @@ func screenshotDescriptTopCV(url string) {
 		fmt.Println(err)
 	}
 }
-
-// https://www.topcv.vn/brand/smartosc/tuyen-dung/it-comtor-j592057.html
-// https://www.topcv.vn/viec-lam/blockchain-developers-luong-1-000-4-000-hcm/590697.html

@@ -5,10 +5,12 @@ import (
 	"vieclamit/repository"
 )
 
+// Handle struct
 type Handle struct {
 	Repo repository.Repository
 }
 
+// CheckJobDeadlineExpired check expired job deadline
 func (h *Handle) CheckJobDeadlineExpired() error {
 	count, err := h.Repo.Delete("vieclamit")
 	if err != nil {

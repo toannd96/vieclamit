@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// check the job deadline with the current time, see if it's expired, expired is true
+// CheckTimeBefore check the job deadline with the current time, see if it's expired, expired is true
 func CheckTimeBefore(jobDeadline string) (bool, error) {
 	timeDeadline, err := ParseTime(jobDeadline)
 	if err != nil {
@@ -22,7 +22,7 @@ func CheckTimeBefore(jobDeadline string) (bool, error) {
 	return res, nil
 }
 
-// parses a format time string to time time
+// ParseTime parses a format time string to time time
 func ParseTime(timeString string) (time.Time, error) {
 	timeTime, err := time.Parse("02/01/2006", timeString)
 	if err != nil {
