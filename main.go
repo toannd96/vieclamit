@@ -6,19 +6,15 @@ import (
 
 	"vieclamit/database"
 	"vieclamit/feeds"
-	"vieclamit/repository"
+	"vieclamit/handle"
 	repoimpl "vieclamit/repository/repo_impl"
 )
-
-type handle struct {
-	Repo repository.Repository
-}
 
 func main() {
 	mg := &database.Mongo{}
 	mg.CreateConn()
 
-	handle := handle{
+	handle := handle.Handle{
 		Repo: repoimpl.NewRepo(mg),
 	}
 
@@ -33,10 +29,11 @@ func main() {
 	wg.Wait()
 
 	// Schedule crawl
-	schedule(6*time.Hour, handle, 1)
+	go schedule(6*time.Hour, handle, 1)
+	schedule(24*time.Hour, handle, 2)
 }
 
-func schedule(timeSchedule time.Duration, handle handle, inndex int) {
+func schedule(timeSchedule time.Duration, handle handle.Handle, inndex int) {
 	ticker := time.NewTicker(timeSchedule)
 	func() {
 		for {
@@ -44,6 +41,9 @@ func schedule(timeSchedule time.Duration, handle handle, inndex int) {
 			case 1:
 				<-ticker.C
 				feeds.TopCV(handle.Repo)
+			case 2:
+				<-ticker.C
+				handle.CheckJobDeadlineExpired()
 			}
 		}
 	}()

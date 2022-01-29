@@ -1,6 +1,10 @@
 package models
 
-import "gopkg.in/mgo.v2/bson"
+import (
+	"time"
+
+	"gopkg.in/mgo.v2/bson"
+)
 
 type Recruitment struct {
 	ID          bson.ObjectId `bson:"_id,omitempty"`
@@ -10,5 +14,5 @@ type Recruitment struct {
 	Salary      string        `bson:"salary,omitempty"`
 	UrlJob      string        `bson:"url_job,omitempty"`
 	UrlCompany  string        `bson:"url_company,omitempty"`
-	JobDeadline string        `bson:"job_deadline,omitempty"`
+	JobDeadline time.Time     `bson:"job_deadline,omitempty"`
 }

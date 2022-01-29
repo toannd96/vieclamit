@@ -47,7 +47,7 @@ func getTotalPageTopCV() (int, error) {
 
 func getDataOnePage(url string, repo repository.Repository) error {
 	var recruitment models.Recruitment
-	var urlJob string
+	var urlJob, jobDeadlineString string
 
 	doc, err := common.GetNewDocument(url)
 	if err != nil {
@@ -68,26 +68,35 @@ func getDataOnePage(url string, repo repository.Repository) error {
 			fmt.Println(err)
 		}
 
-		// if not exists
+		// if url job not exists
 		if count == 0 {
-			fmt.Printf("Extract %s\n", urlJob)
-			recruitment.UrlJob = urlJob
 
-			body.Find("div.content").Each(func(index int, content *goquery.Selection) {
+			// job deadline
+			body.Find("p.deadline strong").Each(func(index int, deadline *goquery.Selection) {
+				numDay, _ := strconv.Atoi(deadline.Text())
+				jobDeadlineString = time.Now().AddDate(0, 0, numDay).Format("02/01/2006")
+
+			})
+
+			// check the job deadline with the current time
+			expired, _ := common.CheckTimeBefore(jobDeadlineString)
+
+			//  expired is false is job deadline after current time
+			if !expired {
+				fmt.Printf("Extract %s\n", urlJob)
+
+				recruitment.UrlJob = urlJob
+
+				jobDeadline, _ := common.ParseTime(jobDeadlineString)
+				recruitment.JobDeadline = jobDeadline
 
 				// title
-				content.Find("h3.title span.transform-job-title").Each(func(index int, title *goquery.Selection) {
+				body.Find("h3.title span.transform-job-title").Each(func(index int, title *goquery.Selection) {
 					recruitment.Title = title.Text()
 				})
 
-				// job deadline
-				content.Find("p.deadline strong").Each(func(index int, deadline *goquery.Selection) {
-					numDay, _ := strconv.Atoi(deadline.Text())
-					recruitment.JobDeadline = time.Now().AddDate(0, 0, numDay).Format("02/01/2006")
-				})
-
 				// company
-				content.Find("p.company a[href]").Each(func(index int, href *goquery.Selection) {
+				body.Find("p.company a[href]").Each(func(index int, href *goquery.Selection) {
 					// name
 					recruitment.Company = href.Text()
 
@@ -109,25 +118,24 @@ func getDataOnePage(url string, repo repository.Repository) error {
 						})
 					}
 				})
-			})
-
-			body.Find("div.label-content").Each(func(index int, labelContent *goquery.Selection) {
 
 				// salary
-				labelContent.Find("label.salary").Each(func(index int, salary *goquery.Selection) {
+				body.Find("label.salary").Each(func(index int, salary *goquery.Selection) {
 					recruitment.Salary = salary.Text()
 				})
 
 				// location
-				labelContent.Find("label.address").Each(func(index int, address *goquery.Selection) {
+				body.Find("label.address").Each(func(index int, address *goquery.Selection) {
 					recruitment.Location = address.Text()
 				})
-			})
 
-			// save in to mongodb
-			errSave := repo.Insert(recruitment, "vieclamit")
-			if errSave != nil {
-				fmt.Println(errSave)
+				// save in to mongodb
+				errSave := repo.Insert(recruitment, "vieclamit")
+				if errSave != nil {
+					fmt.Println(errSave)
+				}
+			} else {
+				fmt.Printf("job deadline %s before time today\n", jobDeadlineString)
 			}
 
 		} else {

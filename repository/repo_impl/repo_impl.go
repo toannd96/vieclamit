@@ -1,7 +1,11 @@
 package repoimpl
 
 import (
+	"fmt"
+	"time"
+	"vieclamit/common"
 	"vieclamit/database"
+	"vieclamit/models"
 	"vieclamit/repository"
 
 	"gopkg.in/mgo.v2/bson"
@@ -17,8 +21,8 @@ func NewRepo(mg *database.Mongo) repository.Repository {
 	}
 }
 
-func (rp *RepoImpl) Insert(data interface{}, collection string) error {
-	return rp.mg.Db.C(collection).Insert(data)
+func (rp *RepoImpl) Insert(recruitment models.Recruitment, collection string) error {
+	return rp.mg.Db.C(collection).Insert(recruitment)
 }
 
 func (rp *RepoImpl) FindByUrl(urlJob string, collection string) (int, error) {
@@ -27,4 +31,17 @@ func (rp *RepoImpl) FindByUrl(urlJob string, collection string) (int, error) {
 		return 0, err
 	}
 	return count, nil
+}
+
+func (rp *RepoImpl) Delete(collection string) (int, error) {
+	timeToday, err := common.ParseTime(time.Now().Format("02/01/2006"))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	info, errRm := rp.mg.Db.C(collection).RemoveAll(bson.M{"job_deadline": bson.M{"$lt": timeToday}})
+	if errRm != nil {
+		return 0, errRm
+	}
+	return info.Removed, nil
 }
