@@ -28,6 +28,10 @@ func main() {
 
 	wg.Wait()
 
+	// handle.SearchJobByLocation("Hà nội")
+	// handle.SearchJobBySkill("golang")
+	// handle.SearchJobByCompany("fpt")
+
 	// schedule crawl
 	go schedule(6*time.Hour, handle, 1)
 	schedule(24*time.Hour, handle, 2)

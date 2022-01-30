@@ -17,3 +17,6 @@ type Recruitment struct {
 	UrlCompany  string        `bson:"url_company,omitempty"`
 	JobDeadline time.Time     `bson:"job_deadline,omitempty"`
 }
+
+//Recruitments
+type Recruitments []Recruitment
