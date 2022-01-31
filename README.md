@@ -20,9 +20,9 @@
 
 - Chức năng:
     - Tìm kiếm tin tuyển dụng theo từ khóa không phân biệt chữ hoa/thường, phải đủ dấu:
-    * [x]  Từ khóa: skill (golang, python, php,...)
-    * [x]  Từ khóa: location (Hà nội, Hồ chí minh, đà nẵng,...)
-    * [x]  Từ khóa: company (vccorp, FPT, vng,...)
-    - Xem chi tiết nội dung tuyển dụng dưới dạng ảnh chụp màn hình
+        * [x]  Từ khóa: skill (golang, python, php,...)
+        * [x]  Từ khóa: location (Hà nội, Hồ chí minh, đà nẵng,...)
+        * [x]  Từ khóa: company (vccorp, FPT, vng,...)
+    - Xem chi tiết nội dung tin tuyển dụng dưới dạng ảnh chụp màn hình
     ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/screenshot_descript.png)
 
