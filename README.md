@@ -16,7 +16,7 @@
 * [x]  Thu thập hết dữ liệu từ nguồn
 * [x]  Dữ liệu thu thập không bị trùng lặp
 * [x]  Lập lịch tự động thu thập dữ liệu
-* [x]  Lập lịch tự động xóa các job quá hạn tuyển dụng
+* [x]  Lập lịch tự động xóa các tin tuyển dụng quá hạn
 
 - Chức năng:
     - Tìm kiếm tin tuyển dụng theo từ khóa không phân biệt chữ hoa/thường, phải đủ dấu:
