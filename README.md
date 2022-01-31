@@ -26,3 +26,15 @@
     - Xem chi tiết nội dung tin tuyển dụng dưới dạng ảnh chụp màn hình
     ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/screenshot_descript.png)
 
+- Cài đặt:
+    - [golang-install](https://go.dev/doc/install)
+    - [mongodb-on-ubuntu-20-04](https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-20-04)
+- Sử dụng:
+```
+$ go run main.go
+```
+    Hoặc:
+```
+$ go build
+$ ./vieclamit
+```
