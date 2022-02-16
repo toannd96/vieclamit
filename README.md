@@ -24,6 +24,7 @@
         * [x]  Từ khóa: location (Hà nội, Hồ chí minh, đà nẵng,...)
         * [x]  Từ khóa: company (vccorp, FPT, vng,...)
     - Xem chi tiết nội dung tin tuyển dụng dưới dạng ảnh chụp màn hình
+    [link](https://www.topcv.vn/brand/smartosc/tuyen-dung/it-comtor-j592057.html)
     ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/screenshot_descript_brand.png)
 
 - Cài đặt:
