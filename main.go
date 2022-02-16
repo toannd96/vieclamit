@@ -18,6 +18,7 @@ func main() {
 		Repo: repoimpl.NewRepo(mg),
 	}
 
+	// run crawl
 	var wg sync.WaitGroup
 	wg.Add(1)
 
@@ -28,9 +29,14 @@ func main() {
 
 	wg.Wait()
 
+	// search job by keyword
 	// handle.SearchJobByLocation("Hà nội")
 	// handle.SearchJobBySkill("golang")
 	// handle.SearchJobByCompany("fpt")
+
+	// url screenshot JD TopCV
+	// feeds.ScreenshotJDTopCV("https://www.topcv.vn/viec-lam/blockchain-developers-luong-1-000-4-000-hcm/590697.html")
+	// feeds.ScreenshotJDTopCV("https://www.topcv.vn/brand/smartosc/tuyen-dung/it-comtor-j592057.html")
 
 	// schedule crawl
 	go schedule(6*time.Hour, handle, 1)

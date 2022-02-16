@@ -181,7 +181,7 @@ func TopCV(repo repository.Repository) {
 }
 
 // screenshotJDTopCV takes a screenshot of job descript topcv
-func screenshotJDTopCV(url string) {
+func ScreenshotJDTopCV(url string) {
 	ctx, cancel := chromedp.NewContext(
 		context.Background(),
 	)
@@ -191,17 +191,17 @@ func screenshotJDTopCV(url string) {
 
 	if strings.Contains(url, "brand") {
 		// ex: https://www.topcv.vn/brand/smartosc/tuyen-dung/it-comtor-j592057.html
-		if err := chromedp.Run(ctx, common.ElementScreenshot(url, "div.section-body", &buf)); err != nil {
+		if err := chromedp.Run(ctx, common.ElementScreenshot(url, "div.section-body", []string{"div.box-apply", "div.box-seo-job-detail"}, &buf)); err != nil {
 			fmt.Println(err)
 		}
 	} else {
 		// ex: https://www.topcv.vn/viec-lam/blockchain-developers-luong-1-000-4-000-hcm/590697.html
-		if err := chromedp.Run(ctx, common.ElementScreenshot(url, "div.box-info-job div.col-md-8", &buf)); err != nil {
+		if err := chromedp.Run(ctx, common.ElementScreenshot(url, "div.box-info-job div.col-md-8", []string{"div.box-how-to-apply"}, &buf)); err != nil {
 			fmt.Println(err)
 		}
 	}
 
-	if err := ioutil.WriteFile("screenshot_descript.png", buf, 0644); err != nil {
+	if err := ioutil.WriteFile("screenshot_descript_y.png", buf, 0644); err != nil {
 		fmt.Println(err)
 	}
 }
