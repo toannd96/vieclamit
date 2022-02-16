@@ -201,7 +201,7 @@ func ScreenshotJDTopCV(url string) {
 		}
 	}
 
-	if err := ioutil.WriteFile("screenshot_descript_y.png", buf, 0644); err != nil {
+	if err := ioutil.WriteFile("screenshot_descript.png", buf, 0644); err != nil {
 		fmt.Println(err)
 	}
 }
