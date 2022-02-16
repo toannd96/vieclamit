@@ -1,4 +1,4 @@
-### vieclamit - telegram bot tìm việc làm IT
+### vieclamit - bot tìm việc làm IT
 - Yêu cầu 1 tin tuyển dụng (recruitment) hợp lệ phải đủ các trường sau:
 ```
 {
