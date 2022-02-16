@@ -24,7 +24,7 @@
         * [x]  Từ khóa: location (Hà nội, Hồ chí minh, đà nẵng,...)
         * [x]  Từ khóa: company (vccorp, FPT, vng,...)
     - Xem chi tiết nội dung tin tuyển dụng dưới dạng ảnh chụp màn hình
-    ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/screenshot_descript.png)
+    ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/screenshot_descript_brand.png)
 
 - Cài đặt:
     - [golang-install](https://go.dev/doc/install)
