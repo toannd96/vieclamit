@@ -68,6 +68,34 @@ func (rp *RepoImpl) FindByCompany(company, collection string) (*models.Recruitme
 	return &recruitments, nil
 }
 
+// FindBySkillAndLocation combine find skill and location
+func (rp *RepoImpl) FindBySkillAndLocation(skill, location, collection string) (*models.Recruitments, error) {
+	var recruitments models.Recruitments
+	conditions := bson.M{"$and": []bson.M{
+		{"title": bson.M{"$regex": skill, "$options": "i"}},
+		{"location": bson.M{"$regex": location, "$options": "i"}},
+	}}
+	err := rp.mg.Db.C(collection).Find(conditions).All(&recruitments)
+	if err != nil {
+		return nil, err
+	}
+	return &recruitments, nil
+}
+
+// FindByCompanyAndLocation combine find company and location
+func (rp *RepoImpl) FindByCompanyAndLocation(company, location, collection string) (*models.Recruitments, error) {
+	var recruitments models.Recruitments
+	conditions := bson.M{"$and": []bson.M{
+		{"company": bson.M{"$regex": company, "$options": "i"}},
+		{"location": bson.M{"$regex": location, "$options": "i"}},
+	}}
+	err := rp.mg.Db.C(collection).Find(conditions).All(&recruitments)
+	if err != nil {
+		return nil, err
+	}
+	return &recruitments, nil
+}
+
 // Delete delete document if expired job deadline
 func (rp *RepoImpl) Delete(collection string) (int, error) {
 	timeToday, err := common.ParseTime(time.Now().Format("02/01/2006"))

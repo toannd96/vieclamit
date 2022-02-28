@@ -153,7 +153,7 @@ func dataOnePage(url string, repo repository.Repository) error {
 
 // TopCV crawl all page it jobs
 func TopCV(repo repository.Repository) {
-	sem := semaphore.NewWeighted(int64(runtime.NumCPU()))
+	sem := semaphore.NewWeighted(int64(2 * runtime.NumCPU()))
 	group, ctx := errgroup.WithContext(context.Background())
 
 	totalPage, _ := totalPageTopCV()
@@ -177,7 +177,7 @@ func TopCV(repo repository.Repository) {
 		fmt.Println(err)
 	}
 
-	fmt.Println("Completed")
+	fmt.Println("Crawl completed")
 }
 
 // screenshotJDTopCV takes a screenshot of job descript topcv
