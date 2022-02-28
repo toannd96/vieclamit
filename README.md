@@ -18,14 +18,18 @@
 * [x]  Lập lịch tự động thu thập dữ liệu
 * [x]  Lập lịch tự động xóa các tin tuyển dụng quá hạn
 
-- Chức năng:
+- Chức năng hiện tại:
     - Tìm kiếm tin tuyển dụng theo từ khóa không phân biệt chữ hoa/thường, phải đủ dấu:
         * [x]  Từ khóa: skill (golang, python, php,...)
         * [x]  Từ khóa: location (Hà nội, Hồ chí minh, đà nẵng,...)
         * [x]  Từ khóa: company (vccorp, FPT, vng,...)
+- Chức năng sắp có:
+    - Tìm kiếm tin tuyển dụng theo từ khóa kết hợp:
+        * [ ]  Từ khóa: skill (golang, python, php,...) và location (Hà nội, Hồ chí minh, đà nẵng,...)
+        * [ ]  Từ khóa: company (vccorp, FPT, vng,...) và location (Hà nội, Hồ chí minh, đà nẵng,...)
     - Xem chi tiết nội dung tin tuyển dụng dưới dạng ảnh chụp màn hình
     [link](https://www.topcv.vn/brand/smartosc/tuyen-dung/it-comtor-j592057.html)
-    ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/screenshot_descript_brand.png)
+    ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/doc_pictures/screenshot_descript_brand.png)
 
 - Cài đặt:
     - [golang-install](https://go.dev/doc/install)
@@ -39,3 +43,15 @@ $ go run main.go
 $ go build
 $ ./vieclamit
 ```
+- Sử dụng bot **vieclamit** trên telegram:
+    - Bắt đầu và hướng dẫn sử dụng:
+    
+    ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/doc_pictures/start_help.png)
+    
+    - Tìm kiếm tin tuyển dụng theo từ khóa công ty:
+    
+    ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/doc_pictures/company.png)
+    
+    - Tìm kiếm tin tuyển dụng theo từ khóa kỹ năng:
+    
+    ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/doc_pictures/skill.png)
