@@ -1,4 +1,8 @@
 ### vieclamit - bot tìm việc làm IT
+- Nguồn tin tuyển dụng:
+    * [x]  [topcv](https://www.topcv.vn/tim-viec-lam-it-phan-mem-c10026)
+    * [ ]  [jobsgo](https://jobsgo.vn/viec-lam-cong-nghe-thong-tin.html)
+    
 - Yêu cầu 1 tin tuyển dụng (recruitment) hợp lệ phải đủ các trường sau:
 ```
 {
