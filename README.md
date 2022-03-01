@@ -55,6 +55,8 @@ $ heroku login
 $ heroku create vieclamit
 $ heroku config:set MONGO_URI=
 $ heroku config:set TELEGRAM_TOKEN=
+$ heroku config:set DATABASE_NAME=
+$ heroku config:set COLLECTION=
 
 $ cd my-project/
 $ git init
