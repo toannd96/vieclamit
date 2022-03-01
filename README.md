@@ -38,6 +38,7 @@
 - Cài đặt:
     - [golang-install](https://go.dev/doc/install)
     - [mongodb-on-ubuntu-20-04](https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-20-04)
+    - [setup-mongodb-atlas-deploy-heroku](https://www.mongodb.com/developer/how-to/use-atlas-on-heroku/)
 - Sử dụng:
 ```
 $ go run main.go
@@ -47,6 +48,25 @@ $ go run main.go
 $ go build
 $ ./vieclamit
 ```
+
+- Deploy app to heroku
+```
+$ heroku login
+$ heroku create vieclamit
+$ heroku config:set MONGO_URI=
+$ heroku config:set TELEGRAM_TOKEN=
+
+$ cd my-project/
+$ git init
+$ heroku git:remote -a vieclamit
+$ heroku stack:set container
+$ git status
+$ git add .
+$ git commit -am "make it better"
+$ git push heroku master
+$ heroku logs --tail
+```
+
 - Sử dụng bot **vieclamit** trên telegram:
     - Bắt đầu và hướng dẫn sử dụng:
     
