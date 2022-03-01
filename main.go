@@ -44,7 +44,7 @@ func main() {
 		Token: os.Getenv("TELEGRAM_TOKEN"),
 		Repo:  repoimpl.NewRepo(mg),
 	}
-	telegramConfig.NewTelegram()
+	go telegramConfig.NewTelegram()
 
 	// schedule crawl
 	go schedule(6*time.Hour, handle, 1)
