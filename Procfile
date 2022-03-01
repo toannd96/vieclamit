@@ -1,1 +1,1 @@
-web: bin/vieclamit
+worker: bin/vieclamit
