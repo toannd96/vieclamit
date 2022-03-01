@@ -83,7 +83,7 @@ func (t *Telegram) NewTelegram() {
 	bot.Handle("/company", func(m *tb.Message) {
 		company := strings.TrimSpace(m.Text[8:])
 		if company == "" {
-			bot.Send(m.Sender, "💡 Nhập tên công ty có công việc bạn muốn tìm. Ví dụ: /company vng")
+			bot.Send(m.Sender, "💡 Nhập tên công ty có công việc bạn muốn tìm. Ví dụ: /company smartosc")
 			return
 		}
 		recruitments, err := t.Repo.FindByCompany(company, "vieclamit")
