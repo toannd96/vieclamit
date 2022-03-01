@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-	"sync"
 	"time"
 
 	"vieclamit/broadcasts"
@@ -30,21 +29,15 @@ func main() {
 		Repo: repoimpl.NewRepo(mg),
 	}
 
-	// run crawl
-	var wg sync.WaitGroup
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		feeds.TopCV(handle.Repo)
-	}()
-	wg.Wait()
-
 	// conn telegram
 	telegramConfig := &broadcasts.Telegram{
 		Token: os.Getenv("TELEGRAM_TOKEN"),
 		Repo:  repoimpl.NewRepo(mg),
 	}
 	go telegramConfig.NewTelegram()
+
+	// run crawl
+	go feeds.TopCV(handle.Repo)
 
 	// schedule crawl
 	go schedule(6*time.Hour, handle, 1)
