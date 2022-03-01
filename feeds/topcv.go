@@ -23,8 +23,6 @@ import (
 const (
 	topcvBasePath = "https://www.topcv.vn"
 	topcvJobsPath = "/tim-viec-lam-it-phan-mem-c10026"
-
-	collection = "vieclamit"
 )
 
 // totalPageTopCV get total page
@@ -67,7 +65,7 @@ func dataOnePage(url string, repo repository.Repository) error {
 		})
 
 		// check url job exists in mongodb
-		count, err := repo.FindByUrl(urlJob, collection)
+		count, err := repo.FindByUrl(urlJob)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -135,7 +133,7 @@ func dataOnePage(url string, repo repository.Repository) error {
 				})
 
 				// save in to mongodb
-				errSave := repo.Insert(recruitment, collection)
+				errSave := repo.Insert(recruitment)
 				if errSave != nil {
 					fmt.Println(errSave)
 				}

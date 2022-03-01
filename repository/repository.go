@@ -4,12 +4,12 @@ import "vieclamit/models"
 
 // Repository interface
 type Repository interface {
-	Insert(recruitment models.Recruitment, collection string) error
-	Delete(collection string) (int64, error)
-	FindByUrl(urlJob, collection string) (int64, error)
-	FindByLocation(location, collection string) (*models.Recruitments, error)
-	FindBySkill(skill, collection string) (*models.Recruitments, error)
-	FindByCompany(company, collection string) (*models.Recruitments, error)
-	FindBySkillAndLocation(skill, location, collection string) (*models.Recruitments, error)
-	FindByCompanyAndLocation(company, location, collection string) (*models.Recruitments, error)
+	Insert(recruitment models.Recruitment) error
+	Delete() (int64, error)
+	FindByUrl(urlJob string) (int64, error)
+	FindByLocation(location string) (*models.Recruitments, error)
+	FindBySkill(skill string) (*models.Recruitments, error)
+	FindByCompany(company string) (*models.Recruitments, error)
+	FindBySkillAndLocation(skill, location string) (*models.Recruitments, error)
+	FindByCompanyAndLocation(company, location string) (*models.Recruitments, error)
 }

@@ -59,7 +59,7 @@ func (t *Telegram) NewTelegram() {
 			bot.Send(m.Sender, "💡 Nhập tên thành phố có công việc bạn muốn tìm. Ví dụ: /location Hà nội")
 			return
 		}
-		recruitments, err := t.Repo.FindByLocation(location, "vieclamit")
+		recruitments, err := t.Repo.FindByLocation(location)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -86,7 +86,7 @@ func (t *Telegram) NewTelegram() {
 			bot.Send(m.Sender, "💡 Nhập tên công ty có công việc bạn muốn tìm. Ví dụ: /company smartosc")
 			return
 		}
-		recruitments, err := t.Repo.FindByCompany(company, "vieclamit")
+		recruitments, err := t.Repo.FindByCompany(company)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -113,7 +113,7 @@ func (t *Telegram) NewTelegram() {
 			bot.Send(m.Sender, "💡 Nhập tên kỹ năng bạn muốn tìm. Ví dụ: /skill php")
 			return
 		}
-		recruitments, err := t.Repo.FindBySkill(skill, "vieclamit")
+		recruitments, err := t.Repo.FindBySkill(skill)
 		if err != nil {
 			fmt.Println(err)
 		}

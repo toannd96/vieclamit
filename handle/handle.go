@@ -13,7 +13,7 @@ type Handle struct {
 
 // CheckJobDeadlineExpired check expired job deadline
 func (h *Handle) CheckJobDeadlineExpired() error {
-	count, err := h.Repo.Delete("vieclamit")
+	count, err := h.Repo.Delete()
 	if err != nil {
 		return err
 	}

@@ -23,5 +23,5 @@ func (m *Mongo) CreateConn() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	m.Db = client.Database("")
+	m.Db = client.Database(os.Getenv("DATABASE_NAME"))
 }

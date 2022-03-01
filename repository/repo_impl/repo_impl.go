@@ -3,6 +3,7 @@ package repoimpl
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	"vieclamit/common"
@@ -12,6 +13,8 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson"
 )
+
+var collection = os.Getenv("COLLECTION")
 
 // RepoImpl struct
 type RepoImpl struct {
@@ -26,7 +29,7 @@ func NewRepo(mg *database.Mongo) repository.Repository {
 }
 
 // Insert insert data recruitment in to mongo
-func (rp *RepoImpl) Insert(recruitment models.Recruitment, collection string) error {
+func (rp *RepoImpl) Insert(recruitment models.Recruitment) error {
 	_, err := rp.mg.Db.Collection(collection).InsertOne(context.TODO(), recruitment)
 	if err != nil {
 		return err
@@ -35,7 +38,7 @@ func (rp *RepoImpl) Insert(recruitment models.Recruitment, collection string) er
 }
 
 // FindByUrl find url job to check exists
-func (rp *RepoImpl) FindByUrl(urlJob, collection string) (int64, error) {
+func (rp *RepoImpl) FindByUrl(urlJob string) (int64, error) {
 	count, err := rp.mg.Db.Collection(collection).CountDocuments(context.TODO(), bson.M{"url_job": urlJob})
 	if err != nil {
 		return 0, err
@@ -44,7 +47,7 @@ func (rp *RepoImpl) FindByUrl(urlJob, collection string) (int64, error) {
 }
 
 // FindByLocation find location
-func (rp *RepoImpl) FindByLocation(location, collection string) (*models.Recruitments, error) {
+func (rp *RepoImpl) FindByLocation(location string) (*models.Recruitments, error) {
 	var recruitments models.Recruitments
 	cursor, err := rp.mg.Db.Collection(collection).Find(context.TODO(), bson.M{"location": bson.M{"$regex": location, "$options": "i"}})
 	if err != nil {
@@ -57,7 +60,7 @@ func (rp *RepoImpl) FindByLocation(location, collection string) (*models.Recruit
 }
 
 // FindByTitle find skill
-func (rp *RepoImpl) FindBySkill(skill, collection string) (*models.Recruitments, error) {
+func (rp *RepoImpl) FindBySkill(skill string) (*models.Recruitments, error) {
 	var recruitments models.Recruitments
 	cursor, err := rp.mg.Db.Collection(collection).Find(context.TODO(), bson.M{"title": bson.M{"$regex": skill, "$options": "i"}})
 	if err != nil {
@@ -70,7 +73,7 @@ func (rp *RepoImpl) FindBySkill(skill, collection string) (*models.Recruitments,
 }
 
 // FindByTitle find company
-func (rp *RepoImpl) FindByCompany(company, collection string) (*models.Recruitments, error) {
+func (rp *RepoImpl) FindByCompany(company string) (*models.Recruitments, error) {
 	var recruitments models.Recruitments
 	cursor, err := rp.mg.Db.Collection(collection).Find(context.TODO(), bson.M{"company": bson.M{"$regex": company, "$options": "i"}})
 	if err != nil {
@@ -83,7 +86,7 @@ func (rp *RepoImpl) FindByCompany(company, collection string) (*models.Recruitme
 }
 
 // FindBySkillAndLocation combine find skill and location
-func (rp *RepoImpl) FindBySkillAndLocation(skill, location, collection string) (*models.Recruitments, error) {
+func (rp *RepoImpl) FindBySkillAndLocation(skill, location string) (*models.Recruitments, error) {
 	var recruitments models.Recruitments
 	conditions := bson.M{"$and": []bson.M{
 		{"title": bson.M{"$regex": skill, "$options": "i"}},
@@ -100,7 +103,7 @@ func (rp *RepoImpl) FindBySkillAndLocation(skill, location, collection string) (
 }
 
 // FindByCompanyAndLocation combine find company and location
-func (rp *RepoImpl) FindByCompanyAndLocation(company, location, collection string) (*models.Recruitments, error) {
+func (rp *RepoImpl) FindByCompanyAndLocation(company, location string) (*models.Recruitments, error) {
 	var recruitments models.Recruitments
 	conditions := bson.M{"$and": []bson.M{
 		{"company": bson.M{"$regex": company, "$options": "i"}},
@@ -117,7 +120,7 @@ func (rp *RepoImpl) FindByCompanyAndLocation(company, location, collection strin
 }
 
 // Delete delete document if expired job deadline
-func (rp *RepoImpl) Delete(collection string) (int64, error) {
+func (rp *RepoImpl) Delete() (int64, error) {
 	timeToday, err := common.ParseTime(time.Now().Format("02/01/2006"))
 	if err != nil {
 		fmt.Println(err)
