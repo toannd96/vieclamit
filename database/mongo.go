@@ -1,22 +1,27 @@
 package database
 
-import "gopkg.in/mgo.v2"
+import (
+	"context"
+	"log"
+	"os"
 
-const (
-	host   = "localhost"
-	dbName = "vieclamit"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // Mongo struct
 type Mongo struct {
-	Db *mgo.Database
+	Db *mongo.Database
 }
 
 // CreateConn create connection to mongodb
 func (m *Mongo) CreateConn() {
-	sess, err := mgo.Dial(host)
+	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
+	clientOptions := options.Client().ApplyURI(os.Getenv("MONGO_URI")).SetServerAPIOptions(serverAPIOptions)
+
+	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	m.Db = sess.DB(dbName)
+	m.Db = client.Database("")
 }
