@@ -140,7 +140,7 @@ func (t *Telegram) NewTelegram() {
 	})
 
 	bot.Handle("/locationSkill", func(m *tb.Message) {
-		keyword := strings.Split(m.Text[14:], "-")
+		keyword := strings.Split(m.Text[15:], "-")
 
 		recruitments, err := t.Repo.FindByLocationAndSkill(keyword[0], keyword[1])
 		if err != nil {
