@@ -27,10 +27,7 @@
         * [x]  Từ khóa: skill (golang, python, php,...)
         * [x]  Từ khóa: location (Hà nội, Hồ chí minh, đà nẵng,...)
         * [x]  Từ khóa: company (vccorp, FPT, vng,...)
-- Chức năng sắp có:
-    - Tìm kiếm tin tuyển dụng theo từ khóa kết hợp:
-        * [ ]  Từ khóa: skill (golang, python, php,...) và location (Hà nội, Hồ chí minh, đà nẵng,...)
-        * [ ]  Từ khóa: company (vccorp, FPT, vng,...) và location (Hà nội, Hồ chí minh, đà nẵng,...)
+        * [x]  Từ khóa: location (Hà nội, Hồ chí minh, đà nẵng,...) và skill (golang, python, php,...)
     - Xem chi tiết nội dung tin tuyển dụng dưới dạng ảnh chụp màn hình
     [link](https://www.topcv.vn/brand/smartosc/tuyen-dung/it-comtor-j592057.html)
     ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/doc_pictures/screenshot_descript_brand.png)

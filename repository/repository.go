@@ -10,6 +10,5 @@ type Repository interface {
 	FindByLocation(location string) (*models.Recruitments, error)
 	FindBySkill(skill string) (*models.Recruitments, error)
 	FindByCompany(company string) (*models.Recruitments, error)
-	FindBySkillAndLocation(skill, location string) (*models.Recruitments, error)
-	FindByCompanyAndLocation(company, location string) (*models.Recruitments, error)
+	FindByLocationAndSkill(location, skill string) (*models.Recruitments, error)
 }

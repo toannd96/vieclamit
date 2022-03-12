@@ -36,21 +36,26 @@ func (t *Telegram) NewTelegram() {
 
 ✅ Từ khóa tên địa điểm 
 							👉 /location <tên địa điểm>
-							Ví dụ:
-								👍 /location hà nội
-								👎 /location ha noi
+								Ví dụ:
+									👍 /location hà nội
+									👎 /location ha noi
 
 ✅ Từ khóa tên công ty 
 							👉 /company <tên công ty>
-							Ví dụ:
-								👍 /company smartosc
-								👍 /company giao hàng tiết kiệm
-								👎 /company giao hang tiet kiem
+								Ví dụ:
+									👍 /company smartosc
+									👍 /company giao hàng tiết kiệm
+									👎 /company giao hang tiet kiem
 
 ✅ Từ khóa tên kỹ năng
 							👉 /skill <tên kỹ năng>
-							Ví dụ:
-								👍 /skill golang`)
+								Ví dụ:
+									👍 /skill golang
+
+✅ Từ khóa tên địa điểm và kỹ năng
+							👉 /locationSkill <tên địa điểm-tên kỹ năng>
+								Ví dụ:
+									👍 /locationSkill hồ chí minh-golang`)
 	})
 
 	bot.Handle("/location", func(m *tb.Message) {
@@ -134,9 +139,34 @@ func (t *Telegram) NewTelegram() {
 		}
 	})
 
+	bot.Handle("/locationSkill", func(m *tb.Message) {
+		strings.Split(m.Text[14:], "-")
+		keyword := strings.Split(m.Text[14:], "-")
+
+		recruitments, err := t.Repo.FindByLocationAndSkill(keyword[0], keyword[1])
+		if err != nil {
+			fmt.Println(err)
+		}
+		for _, recruitment := range *recruitments {
+			output := getTemplate(
+				recruitment.Title,
+				recruitment.Company,
+				recruitment.Location,
+				recruitment.Salary,
+				recruitment.JobDeadline.Format("02/01/2006"),
+				recruitment.UrlJob,
+				recruitment.UrlCompany,
+			)
+			bot.Send(m.Sender, output, &tb.SendOptions{
+				ParseMode:             "Markdown",
+				DisableWebPagePreview: true,
+			})
+		}
+	})
+
 	bot.Start()
 }
 
 func getTemplate(title, company, location, salary, jobDeadline, urlJob, urlCompany string) string {
-	return fmt.Sprintf("*%s - %s*\n"+"🏢 %s\n"+"💰 %s\n"+"⏳ %s\n"+"👉 [%s](%s)\n"+"👉 [%s](%s)\n", title, company, location, salary, jobDeadline, "Xem tin tuyển dụng", urlJob, "Xem công ty", urlCompany)
+	return fmt.Sprintf("*%s - %s*\n"+"📍 %s\n"+"💰 %s\n"+"⏳ %s\n"+"👉 [%s](%s)\n"+"👉 [%s](%s)\n", title, company, location, salary, jobDeadline, "Xem tin tuyển dụng", urlJob, "Xem công ty", urlCompany)
 }

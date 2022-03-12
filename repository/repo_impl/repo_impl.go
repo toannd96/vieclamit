@@ -85,29 +85,12 @@ func (rp *RepoImpl) FindByCompany(company string) (*models.Recruitments, error) 
 	return &recruitments, nil
 }
 
-// FindBySkillAndLocation combine find skill and location
-func (rp *RepoImpl) FindBySkillAndLocation(skill, location string) (*models.Recruitments, error) {
+// FindByLocationAndSkill combine find location and skill
+func (rp *RepoImpl) FindByLocationAndSkill(location, skill string) (*models.Recruitments, error) {
 	var recruitments models.Recruitments
 	conditions := bson.M{"$and": []bson.M{
+		{"location": bson.M{"$regex": location, "$options": "i"}},
 		{"title": bson.M{"$regex": skill, "$options": "i"}},
-		{"location": bson.M{"$regex": location, "$options": "i"}},
-	}}
-	cursor, err := rp.mg.Db.Collection(collection).Find(context.TODO(), conditions)
-	if err != nil {
-		return nil, err
-	}
-	if err = cursor.All(context.TODO(), &recruitments); err != nil {
-		return nil, err
-	}
-	return &recruitments, nil
-}
-
-// FindByCompanyAndLocation combine find company and location
-func (rp *RepoImpl) FindByCompanyAndLocation(company, location string) (*models.Recruitments, error) {
-	var recruitments models.Recruitments
-	conditions := bson.M{"$and": []bson.M{
-		{"company": bson.M{"$regex": company, "$options": "i"}},
-		{"location": bson.M{"$regex": location, "$options": "i"}},
 	}}
 	cursor, err := rp.mg.Db.Collection(collection).Find(context.TODO(), conditions)
 	if err != nil {
