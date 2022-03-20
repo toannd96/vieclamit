@@ -72,7 +72,7 @@ $ heroku logs --tail
 - Sử dụng bot **vieclamit** trên telegram:
     - Bắt đầu và hướng dẫn sử dụng:
     
-    ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/doc_pictures/start_help.png)
+    ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/doc_pictures/vli.png)
     
     - Tìm kiếm tin tuyển dụng theo từ khóa công ty:
     
@@ -81,3 +81,7 @@ $ heroku logs --tail
     - Tìm kiếm tin tuyển dụng theo từ khóa kỹ năng:
     
     ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/doc_pictures/skill.png)
+    
+    - Tìm kiếm tin tuyển dụng theo từ khóa địa điểm và kỹ năng:
+    
+    ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/doc_pictures/vli2.png)
