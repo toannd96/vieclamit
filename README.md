@@ -44,6 +44,7 @@ $ ./vieclamit
 ```
 
 - Deploy app to heroku
+ 
 ```
 $ heroku login
 $ heroku create vieclamit
@@ -64,11 +65,10 @@ $ heroku ps:scale worker=1
 
 $ heroku logs --tail
 ```
+![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/doc_pictures/vli.png)
 
 - Sử dụng bot **vieclamit** trên telegram:
     - Bắt đầu và hướng dẫn sử dụng:
-    
-    ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/doc_pictures/vli.png)
     
     - Tìm kiếm tin tuyển dụng theo từ khóa công ty:
     
