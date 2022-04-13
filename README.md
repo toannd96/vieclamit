@@ -22,16 +22,12 @@
 * [x]  Lập lịch tự động thu thập dữ liệu
 * [x]  Lập lịch tự động xóa các tin tuyển dụng quá hạn
 
-- Chức năng hiện tại:
+- Chức năng:
     - Tìm kiếm tin tuyển dụng theo từ khóa không phân biệt chữ hoa/thường, phải đủ dấu:
         * [x]  Từ khóa: skill (golang, python, php,...)
         * [x]  Từ khóa: location (Hà nội, Hồ chí minh, đà nẵng,...)
         * [x]  Từ khóa: company (vccorp, FPT, vng,...)
         * [x]  Từ khóa: location (Hà nội, Hồ chí minh, đà nẵng,...) và skill (golang, python, php,...)  
-- Chức năng sắp có:
-    - Xem chi tiết nội dung tin tuyển dụng dưới dạng ảnh chụp màn hình
-    [link](https://www.topcv.vn/brand/smartosc/tuyen-dung/it-comtor-j592057.html)
-    ![alt text](https://github.com/dactoankmapydev/vieclamit/blob/master/doc_pictures/screenshot_descript_brand.png)
 
 - Cài đặt:
     - [golang-install](https://go.dev/doc/install)
